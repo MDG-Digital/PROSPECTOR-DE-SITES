@@ -18,4 +18,4 @@ Redesenhe as páginas dos leads seguindo a skill `redesign-premium`. Ela é obri
 3. **Salvar** na pasta conectada, com o nome do cliente no arquivo para fácil identificação:
    - `sites/[slug]/[slug].html` — a página final (arquivo único, autocontido, responsivo)
    - `sites/[slug]/[slug]-editor.html` — a MESMA página com a camada de edição visual injetada antes de `</body>` (script completo em `references/editor-visual.md` da skill `redesign-premium`). Gere SEMPRE, sem esperar o usuário pedir.
-4. **Comparador**: crie/atua
+4. **Comparador (OBRIGATÓRI
