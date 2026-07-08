@@ -51,4 +51,4 @@ Se os dados da HostGator foram informados, teste a conexão seguindo a skill `de
 
 ## 6. Encerrar
 
-Confirme o que foi salvo e 
+Confirme o que foi salvo e explique o ciclo: `/prospectar` → `/redesenhar` → `/publicar` → `/proposta`, com `/editor` opcional para ajustes manuais.

@@ -18,4 +18,4 @@ Envie propostas para os leads com página publicada, seguindo a skill `proposta-
 
 ## Saída
 
-Resuma: quantas propostas criadas/en
+Resuma: quantas propostas criadas/enviadas e para quem. Lembre o usuário de acompanhar as respostas — o fechamento (preço, reunião) acontece na resposta do cliente. Sugira um follow-up educado após 3-4 dias úteis sem resposta.

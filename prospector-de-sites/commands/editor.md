@@ -13,5 +13,5 @@ Gere a versão editável de uma página redesenhada.
 4. Apresente o arquivo `[slug]-editor.html` ao usuário e explique em 3 linhas como usar:
    - Abra o arquivo no navegador; clique em qualquer texto para editar direto na página.
    - Clique em qualquer imagem para trocá-la por um arquivo do computador (fica embutida na página).
-   - Botão "Exportar página" baixa o HTML final limpo (sem o editor) — substitua o `index.html` por ele.
-5. Se o usuário disser que terminou a edição e enviar/salvar o arquivo exportado, substitua `sites/[slug]/[slug].html` pelo conteú
+   - Botão "Exportar página" baixa o HTML final limpo (sem o editor) — substitua a página original por ele.
+5. Se o usuário disser que terminou a edição e enviar/salvar o arquivo exportado, substitua `sites/[slug]/[slug].html` pelo conteúdo exportado antes de publicar.
