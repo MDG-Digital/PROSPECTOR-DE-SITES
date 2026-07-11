@@ -15,10 +15,13 @@ Tudo vem de `prospector-config.json` (bloco `hostgator`): `usuario`, `dominio`, 
 
 A rede do sandbox do Cowork NÃO alcança FTP nem cPanel — isso vale para todo usuário. A publicação roda na máquina do usuário via um publicador instalado no agendador do Windows: a cada minuto ele verifica a fila e sobe o que houver, escondido, lendo as credenciais do config. O usuário instala UMA vez e o /publicar vira 100% automático.
 
-1. **Garanta os 4 arquivos na pasta conectada** (copie de `references/` desta skill, sobrescrevendo versões antigas): `publicar-agora.ps1`, `publicar-agora.bat`, `publicador-oculto.vbs` e `instalar-publicador.bat`.
-2. **Primeira vez**: peça UM duplo clique no `instalar-publicador.bat` (cria a tarefa "ProspectorPublicador" no Windows). Se der erro de permissão: botão direito → Executar como administrador. Isso acontece só uma vez na vida.
+1. **Garanta os arquivos do publicador na pasta conectada** (copie de `references/` desta skill, sobrescrevendo versões antigas), conforme o sistema do usuário — pergunte ou detecte:
+   - **Windows**: `publicar-agora.ps1`, `publicar-agora.bat`, `publicador-oculto.vbs`, `instalar-publicador.bat`.
+   - **Mac**: `publicar-agora.command` e `instalar-publicador.command` (o instalador registra o publicador no launchd, a cada 60s; desinstalar = `launchctl unload` do plist com.prospector.publicador).
+   Em dúvida, copie todos — cada sistema ignora os do outro.
+2. **Primeira vez**: peça UM duplo clique no `instalar-publicador.bat` (Windows — cria a tarefa "ProspectorPublicador"; erro de permissão = botão direito → Executar como administrador) ou no `instalar-publicador.command` (Mac — se o macOS bloquear por segurança: botão direito → Abrir na primeira vez). Só uma vez na vida.
 3. **Monte a fila**: escreva `fila-publicacao.txt` na raiz da pasta conectada, uma linha por arquivo: `caminho/local/arquivo.html|public_html/[pastaBase]/[slug]/index.html`. Inclua página (`index.html`) e capa (`proposta.html`) de cada cliente. Em até 1 minuto o publicador sobe tudo sozinho e renomeia a fila para `fila-publicada-[data].txt` (o log fica em `publicador-log.txt`).
-4. **Aguarde ~90s e verifique**: confira se a fila foi renomeada e teste as URLs (verificação abaixo). Sem tarefa instalada, o fallback manual é o duplo clique no `publicar-agora.bat`.
+4. **Aguarde ~90s e verifique**: confira se a fila foi renomeada e teste as URLs (verificação abaixo). Sem tarefa instalada, o fallback manual é o duplo clique no `publicar-agora.bat` (Windows) ou `publicar-agora.command` (Mac).
 
 ## Método 2 — FTP direto do sandbox (tentar primeiro, silencioso)
 
@@ -26,7 +29,7 @@ Antes de acionar o usuário, tente publicar você mesmo: `curl -sS --connect-tim
 
 ## Método 3 — Navegador (último recurso)
 
-Se os métodos 1 e 2 falharem (ex.: curl.exe ausente no Windows do usuário): cPanel File Manager pelo Claude in Chrome — o USUÁRIO faz o login dele (nunca peça a senha no chat), você navega, cria as pastas e faz upload pela interface.
+Se os métodos 1 e 2 falharem (ex.: curl ausente na máquina do usuário): cPanel File Manager pelo Claude in Chrome — o USUÁRIO faz o login dele (nunca peça a senha no chat), você navega, cria as pastas e faz upload pela interface.
 
 ## Verificação (obrigatória, após qualquer método)
 
