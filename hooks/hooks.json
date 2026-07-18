@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE=$(jq -r '.tool_input.file_path'); echo \"$FILE\" | grep -qE '\\.html$' || exit 0; grep -qE '\\[NOME|TELEFONE_AQUI|LOREM IPSUM' \"$FILE\" && echo 'Placeholder encontrado — corrija antes de prosseguir!' && exit 1 || exit 0"
+          }
+        ]
+      }
+    ]
+  }
+}
