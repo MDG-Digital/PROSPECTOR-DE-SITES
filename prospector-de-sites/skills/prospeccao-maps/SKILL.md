@@ -7,6 +7,8 @@ description: Esta skill deve ser usada ao prospectar clientes no Google Maps —
 
 Encontrar o cliente ouro: negócio que JÁ fatura bem (nota alta, muitas avaliações) mas perde clientes por causa de um site fraco. Não se cria demanda — conserta-se onde o dinheiro está escapando.
 
+> ⚠️ **SLUG (identidade do lead — nasce aqui):** ao registrar cada lead no banco/dashboard, gere o `slug` pela **REGRA ÚNICA** da skill `dashboard-leads` (slugify do NOME do negócio: minúsculas, sem acento, sem prefixo de nicho — nada de `of-`/`cl-`). Esse slug é **imutável** e vira o nome da pasta (`sites/<slug>/`), dos arquivos e da URL pública — todos os comandos seguintes o **reutilizam** exatamente. Nunca deixe o slug ser re-derivado depois.
+
 ## Fluxo (via Claude in Chrome)
 
 1. Abrir `https://www.google.com/maps` e buscar `[nicho] em [cidade]`.

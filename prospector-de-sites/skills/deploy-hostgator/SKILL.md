@@ -7,6 +7,8 @@ description: Esta skill deve ser usada ao publicar páginas na hospedagem HostGa
 
 Publicar páginas em `public_html/[pastaBase]/[slug]/` e garantir a URL pública `https://[dominio]/[pastaBase]/[slug]/` funcionando.
 
+> ⚠️ **SLUG:** o `[slug]` da pasta remota e da URL DEVE ser o mesmo `slug` gravado no `prospector.db` para o lead (e o mesmo da pasta local `sites/<slug>/`). Nunca re-derive do nome na hora de publicar — leia o slug do banco e use-o igual. Assim a URL pública, a pasta local e o banco ficam idênticos. Regra única de slug: skill `dashboard-leads`.
+
 ## Credenciais
 
 Tudo vem de `prospector-config.json` (bloco `hostgator`): `usuario`, `dominio`, `servidor`, `senha`, `pastaBase` (padrão `clientes`). **A senha vive SÓ nesse arquivo, no computador do usuário — nunca é digitada no chat, nunca é exibida em nenhuma saída, log ou comando mostrado ao usuário.** Se a senha estiver vazia, oriente o usuário: dashboard → aba Configurações → Conexão HostGator → colar a senha e salvar (ou editar o arquivo na mão). Nunca pelo chat.

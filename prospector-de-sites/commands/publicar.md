@@ -5,6 +5,8 @@ argument-hint: "[nome do cliente ou todos]"
 
 Publique páginas na HostGator seguindo a skill `deploy-hostgator`.
 
+> ⚠️ **SLUG:** a pasta remota e a URL pública usam o `slug` já gravado no `prospector.db` para o lead (o mesmo da pasta local `sites/<slug>/`). Leia o slug do banco — nunca re-derive do nome. Regra única: skill `dashboard-leads`.
+
 ## Passos
 
 1. Leia `prospector-config.json`. Se os dados da HostGator não estiverem preenchidos, colete-os agora (usuário, domínio, servidor — e oriente o usuário a preencher a senha diretamente no config, nunca no chat) — não prossiga sem eles.

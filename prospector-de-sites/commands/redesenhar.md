@@ -15,7 +15,7 @@ Redesenhe as páginas dos leads seguindo a skill `redesign-premium`. Ela é obri
 
 1. **Extração**: abra o site original no Claude in Chrome (o sandbox costuma bloquear fetch direto a esses domínios). Extraia TODO o conteúdo real: textos, serviços, formação/credenciais, endereço, telefone/WhatsApp, e-mail, redes sociais, horários, paleta de cores e — OBRIGATÓRIO — as URLs reais do logo e das fotos (via JavaScript no navegador: colete `img.currentSrc` de todas as imagens; se forem lazy-load, role a página até o fim antes de coletar). Tire um screenshot do site original para referência.
 2. **Redesign**: aplique a skill `redesign-premium` na íntegra. Regra de ouro: NADA inventado — é uma nova versão da página do cliente, não uma página nova. O logo original e as fotos originais DEVEM aparecer na página nova (se o cliente não tem site/logo, use composição tipográfica — nunca invente logo).
-3. **Salvar** na pasta conectada, com o nome do cliente no arquivo para fácil identificação:
+3. **Salvar** na pasta conectada. ⚠️ **O `[slug]` é o valor JÁ GRAVADO no `prospector.db` para este lead (case pelo `nome`) — leia-o do banco e use EXATAMENTE; nunca re-derive do nome aqui** (regra única de slug: skill `dashboard-leads`). Arquivos:
    - `sites/[slug]/[slug].html` — a página final (arquivo único, autocontido, responsivo)
    - `sites/[slug]/[slug]-editor.html` — a MESMA página com a camada de edição visual injetada antes de `</body>` (script completo em `references/editor-visual.md` da skill `redesign-premium`). Gere SEMPRE, sem esperar o usuário pedir.
 4. **Comparador (OBRIGATÓRIO — não é opcional)**: crie/atualize `comparar.html` na RAIZ da pasta conectada usando o template pronto `references/comparador-template.html` da skill `redesign-premium`: copie o template, substitua `__CLIENTES__` pelo array JSON dos clientes (formato documentado no rodapé do próprio template). Se `comparar.html` já existir, LEIA o array atual e acrescente os novos clientes no topo — nunca perca os antigos.
@@ -27,6 +27,7 @@ Antes de apresentar qualquer resultado ao usuário, confirme que TODOS estes arq
 
 - [ ] `sites/[slug]/[slug].html` para CADA cliente do lote
 - [ ] `sites/[slug]/[slug]-editor.html` para CADA cliente do lote
+- [ ] **Slug conferido:** para CADA cliente, o nome da pasta `sites/<slug>/` é IDÊNTICO ao `slug` do lead no `prospector.db`. Se divergir, corrija para o slug do banco ANTES de prosseguir — pasta/arquivo com nome diferente do banco quebra os botões PÁGINA/EDITAR SITE do dashboard.
 - [ ] `comparar.html` na raiz, com abas para TODOS os clientes do lote
 
 Um redesign sem o editor ou sem o comparador é entrega incompleta — o usuário usa o comparador na proposta e no conteúdo dele.

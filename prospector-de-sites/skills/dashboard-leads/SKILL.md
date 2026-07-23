@@ -32,6 +32,21 @@ CREATE TABLE IF NOT EXISTS leads(
 
 Status: `novo | redesenhado | publicado | proposta | respondeu | fechado | descartado`. `slug` é a chave.
 
+## Convenção de slug (REGRA ÚNICA — fonte da verdade)
+
+O `slug` é a **identidade** do lead: é o mesmo nome usado para a pasta (`sites/<slug>/`), os arquivos (`<slug>.html`, `<slug>-editor.html`, `proposta.html`, `contrato-<slug>...`) e a URL pública (`.../<pastaBase>/<slug>/`). Se o slug do banco divergir do nome da pasta/arquivo, os botões do dashboard quebram. Por isso:
+
+1. **Como gerar (só no `/prospectar`, quando o lead nasce):** derive o slug do NOME DO NEGÓCIO — minúsculas, sem acento e sem `ç` (á→a, ç→c), remova tudo que não for `a-z 0-9`, troque espaços/`_`/`&`/`|`/`/` por `-`, colapse hífens repetidos e apare as pontas. **Sem prefixo de nicho** (nada de `of-`, `cl-`). Ex.: "Centro Automotivo Juninho" → `centro-automotivo-juninho`; "Vilarinho Embreagens" → `vilarinho-embreagens`. Se colidir com um slug já existente, acrescente `-2`, `-3`…
+   ```python
+   import re, unicodedata
+   def slugify(nome):
+       s = unicodedata.normalize('NFKD', nome).encode('ascii','ignore').decode()
+       s = re.sub(r'[^a-zA-Z0-9]+','-', s).strip('-').lower()
+       return re.sub(r'-{2,}','-', s)
+   ```
+2. **Slug é IMUTÁVEL.** Depois de gravado no banco, NUNCA re-derive nem renomeie. Todo comando posterior (`/redesenhar`, `/publicar`, `/proposta`, `/editor`, `/contrato`) **lê o slug já gravado no `prospector.db`** para aquele lead (casando pelo `nome`) e usa esse valor EXATO em pastas, arquivos e URLs. É PROIBIDO inventar um slug novo a partir do nome no meio do fluxo.
+3. **Checagem antes de criar/publicar arquivos:** confirme que `sites/<slug>/` usa o mesmo `slug` do banco. Se a pasta não existir com esse nome mas existir com outro, é sinal de divergência — pare e alinhe pelo slug do banco antes de continuar.
+
 ## Como os comandos atualizam (SEMPRE os 2 passos)
 
 1. **Upsert no banco** via bash (exemplo):
