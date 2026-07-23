@@ -5,6 +5,8 @@ argument-hint: "[nome do cliente ou todos]"
 
 Envie propostas para os leads com página publicada, seguindo a skill `proposta-email`.
 
+> ⚠️ **SLUG:** o link da capa (`.../[slug]/proposta.html`) usa o `slug` gravado no `prospector.db` para o lead — leia-o do banco, nunca re-derive do nome. Regra única: skill `dashboard-leads`.
+
 ## Passos
 
 1. Leia `prospector-config.json` (assinatura e modo de envio) e `leads.md`.

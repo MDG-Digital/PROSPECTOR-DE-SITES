@@ -7,6 +7,8 @@ description: Esta skill deve ser usada ao escrever e enviar a proposta comercial
 
 O e-mail NÃO vende — ele desperta curiosidade e prova trabalho feito. O fechamento (preço, escopo, reunião) acontece na resposta. Um e-mail que parece de vendedor morre no spam; um e-mail que parece de uma pessoa que já trabalhou de graça pro destinatário é aberto e respondido.
 
+> ⚠️ **SLUG:** o link da capa (`https://[dominio]/[pastaBase]/[slug]/proposta.html`) usa o `slug` já gravado no `prospector.db` para o lead — leia-o do banco, nunca re-derive do nome. Slug do e-mail = slug da pasta = slug da URL publicada. Regra única de slug: skill `dashboard-leads`.
+
 ## Princípios
 
 1. **Rapport primeiro.** Abrir com elogio ESPECÍFICO e verificável: a nota no Google, uma avaliação real citada, uma credencial do site. Nunca elogio genérico.
