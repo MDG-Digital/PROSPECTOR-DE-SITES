@@ -48,6 +48,20 @@ Revise o e-mail pronto contra CADA item; se falhar em qualquer um, reescreva ant
 - Modo **enviar direto**: se o conector não suportar envio, abrir o Gmail web via Claude in Chrome, ou criar o rascunho e avisar.
 - Nunca enviar para lead sem e-mail confirmado; nesses casos, sugerir contato via WhatsApp com a mesma mensagem adaptada.
 
+## Mensagem de WhatsApp (leads sem e-mail)
+
+Para leads sem e-mail, a abordagem é por WhatsApp (1 a 1). Mesma lógica do e-mail (rapport → oportunidade → prova), em tom de mensagem. Estrutura:
+
+1. Saudação + quem é ("Aqui é o Gilberto, da Kairós Tecnologia") + elogio ESPECÍFICO e verificável (nota/avaliações reais do Google).
+2. Oportunidade: 1-2 pontos objetivos do que dá pra melhorar (ou "ainda não tem site próprio"), como oportunidade — nunca como crítica.
+3. "Preparei uma nova versão, já no ar" + o link da página nova publicada (ou a capa `proposta.html`).
+4. **Parágrafo fixo (penúltimo — sempre este texto, exatamente):**
+   > Estamos aqui no Bairro São João Batista, na Região Norte de BH, e na Kairós usamos modernas soluções de IA (Inteligência Artificial) para criar sites com qualidade, atrativos e com custo bem acessível! Esse site de demonstração foi criado por IA com suas informações públicas no Google, no Instagram e no site atual.
+5. **Fechamento (última frase — sempre):**
+   > Dá uma olhada com calma e me diz o que achou. Abraço!
+
+O parágrafo fixo (item 4) e o fechamento (item 5) entram SEMPRE, nesta ordem, ao final de toda mensagem de WhatsApp.
+
 ## Página-capa (o que o cliente vê ao clicar)
 
 O link do e-mail leva à página-capa gerada no `/publicar` (template em `references/capa-proposta-template.html`): nome do cliente no topo, antes/depois lado a lado e a assinatura do usuário. Ela existe para dar credibilidade ao clique — o cliente vê o próprio negócio, não um link estranho. Exigências: servida em `https://`, personalizada com dados reais, sem pedido de dado pessoal nenhum.

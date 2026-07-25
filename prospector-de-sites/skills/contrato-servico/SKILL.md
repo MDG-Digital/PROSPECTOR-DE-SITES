@@ -9,7 +9,7 @@ Gerar a minuta do contrato do serviço fechado (redesign + publicação de pági
 
 ## Fonte dos dados (nesta ordem)
 
-1. **Banco (`prospector.db`)**: nome do cliente, cidade, valor fechado, URL publicada.
+1. **Banco (`prospector.db`)**: nome do cliente, cidade, valor fechado, URL publicada. Quando preenchidos à mão no dashboard, use também `razaoSocial` e `responsavel` (nome completo do sócio/responsável) para qualificar o CONTRATANTE, e `diaVencimento` + `valorTrimestral` para a cláusula de Suporte e Hospedagem (cobrança trimestral, vencimento no dia informado). Campos vazios → colete do usuário ou deixe como "(preencher)".
 2. **Config (`prospector-config.json`)**: dados do PRESTADOR — nome, CPF/CNPJ, endereço, cidade/UF (campo `contratante`; se não existir, colete do usuário UMA vez e salve).
 3. **Usuário** (ele pergunta ao cliente): CPF/CNPJ e endereço do CONTRATANTE, forma de pagamento, prazo, manutenção mensal (sim/não + valor).
 

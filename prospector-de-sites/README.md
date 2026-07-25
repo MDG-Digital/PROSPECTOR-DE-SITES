@@ -5,7 +5,7 @@ Prospecção semi-automática de clientes com sites ruins: acha, redesenha, publ
 ## O ciclo
 
 1. `/setup` — roda uma vez: assinatura, nichos padrão, dados do cPanel da HostGator (com teste de publicação).
-2. `/prospectar [nicho] [cidade]` — busca no Google Maps negócios nota ≥ 4.7 com site fraco e gera `leads.md` com e-mail, motivo e ranking (padrão: 10 leads).
+2. `/prospectar [nicho] [cidade]` — busca no Google Maps negócios nota ≥ 4.0 (com ou sem site) e gera `leads.md` com e-mail/WhatsApp/Instagram, motivo e ranking (padrão: 10 leads).
 3. `/redesenhar` — recria as páginas dos 5+ melhores leads com estética premium, mantendo o conteúdo, logo e paleta reais do cliente.
 4. `/editor [cliente]` — gera versão editável no navegador (textos e imagens) com exportação da página final.
 5. `/publicar [cliente|todos]` — sobe na HostGator em `dominio.com/clientes/[slug]/`, gera a página-capa de apresentação (antes/depois personalizado, `proposta.html`) e só conclui com HTTPS validado.

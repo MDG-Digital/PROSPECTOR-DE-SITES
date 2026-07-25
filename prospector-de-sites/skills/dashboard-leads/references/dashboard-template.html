@@ -171,6 +171,10 @@ select.mini{border:1px solid var(--line);border-radius:8px;padding:5px 8px;font-
 <div class="mrow"><div><label>Manutenção mensal (R$)</label><input id="m-manutencao" type="number" step="10"></div><div><label>Pagamento recebido?</label><select id="m-pago"><option value="0">Não</option><option value="1">Sim</option></select></div></div>
 <div class="mrow"><div><label>Contrato</label><select id="m-contratoStatus"><option value="pendente">Pendente</option><option value="enviado">Enviado</option><option value="assinado">Assinado</option></select></div><div><label>Data do contrato</label><input id="m-contratoEm" type="date"></div></div>
 <div class="mrow"><div><label>CPF/CNPJ do cliente</label><input id="m-docCliente" placeholder="para o contrato"></div><div><label>Endereço do cliente</label><input id="m-endCliente" placeholder="rua, nº — para o contrato"></div></div>
+<div class="mrow"><div><label>Instagram (@ ou URL)</label><input id="m-instagram" placeholder="captado na prospecção — revisar"></div><div><label>Google Meu Negócio (URL)</label><input id="m-gmnUrl" placeholder="captado na prospecção — revisar"></div></div>
+<div class="mrow"><div><label>GMN — CID (chave estável)</label><input id="m-gmnCid" placeholder="só dígitos — captado na prospecção"></div><div><label></label></div></div>
+<div class="mrow"><div><label>Razão social</label><input id="m-razaoSocial" placeholder="só p/ quem vai fechar contrato"></div><div><label>Sócio/responsável (nome completo)</label><input id="m-responsavel" placeholder="só p/ quem vai fechar contrato"></div></div>
+<div class="mrow"><div><label>Dia venc. trimestral (1-31)</label><input id="m-diaVencimento" type="number" min="1" max="31" step="1" placeholder="Suporte e Hospedagem"></div><div><label>Valor trimestral (R$)</label><input id="m-valorTrimestral" type="number" step="10" placeholder="Suporte e Hospedagem"></div></div>
 <label>URL publicada</label><input id="m-urlNova">
 <label>Observações</label><textarea id="m-obs" rows="2"></textarea>
 <div class="mbot"><button class="cancelar" onclick="fecharEdit()">Cancelar</button><button class="salvar" onclick="salvarEdit()">Salvar</button></div>
@@ -205,12 +209,14 @@ var editSlug=null;
 function abrirEdit(slug){editSlug=slug;var l=leads.filter(function(x){return x.slug===slug})[0]||{};
  document.getElementById('m-titulo').textContent='Editar — '+(l.nome||slug);
  document.getElementById('m-status').innerHTML=Object.keys(NOMES).map(function(st){return '<option value="'+st+'"'+(l.status===st?' selected':'')+'>'+NOMES[st]+'</option>'}).join('');
- ['nome','email','telefone','whatsapp','cidade','nicho','valor','dataProposta','urlNova','obs','manutencao','contratoEm','docCliente','endCliente'].forEach(function(k){document.getElementById('m-'+k).value=l[k]==null?'':l[k]});
+ ['nome','email','telefone','whatsapp','cidade','nicho','valor','dataProposta','urlNova','obs','manutencao','contratoEm','docCliente','endCliente','instagram','gmnUrl','gmnCid','razaoSocial','responsavel','diaVencimento','valorTrimestral'].forEach(function(k){document.getElementById('m-'+k).value=l[k]==null?'':l[k]});
  document.getElementById('m-pago').value=l.pago?1:0;document.getElementById('m-contratoStatus').value=l.contratoStatus||'pendente';
  document.getElementById('modal-bg').classList.add('aberto')}
 function fecharEdit(){document.getElementById('modal-bg').classList.remove('aberto');editSlug=null}
 function salvarEdit(){if(!editSlug)return;var ch={};
- ['nome','email','telefone','whatsapp','cidade','nicho','urlNova','obs','dataProposta','docCliente','endCliente'].forEach(function(k){ch[k]=document.getElementById('m-'+k).value||null});
+ ['nome','email','telefone','whatsapp','cidade','nicho','urlNova','obs','dataProposta','docCliente','endCliente','instagram','gmnUrl','gmnCid','razaoSocial','responsavel'].forEach(function(k){ch[k]=document.getElementById('m-'+k).value||null});
+ var dvc=document.getElementById('m-diaVencimento').value;ch.diaVencimento=dvc===''?null:parseInt(dvc);
+ var vtr=document.getElementById('m-valorTrimestral').value;ch.valorTrimestral=vtr===''?null:parseFloat(vtr);
  ch.status=document.getElementById('m-status').value;
  var v=document.getElementById('m-valor').value;ch.valor=v===''?null:parseFloat(v);
  var mn=document.getElementById('m-manutencao').value;ch.manutencao=mn===''?null:parseFloat(mn);
@@ -231,6 +237,8 @@ function acoes(l){var a=[];
  if(l.urlNova)a.push('<a href="'+l.urlNova+'" target="_blank">no ar ↗</a>');
  if(l.whatsapp)a.push('<a href="https://wa.me/'+l.whatsapp+'" target="_blank">whatsapp</a>');
  if(l.email&&l.email.indexOf('@')>0)a.push('<a href="mailto:'+l.email+'">e-mail</a>');
+ if(l.instagram){var ig=String(l.instagram).indexOf('http')===0?l.instagram:'https://instagram.com/'+String(l.instagram).replace(/^@/,'');a.push('<a href="'+ig+'" target="_blank">instagram</a>')}
+ if(l.gmnUrl)a.push('<a href="'+l.gmnUrl+'" target="_blank">google</a>');
  a.push('<a href="#" onclick="abrirEdit(\''+l.slug+'\');return false">✎ dados</a>');
  a.push('<a href="#" class="del" onclick="deletar(\''+l.slug+'\');return false">✕ excluir</a>');
  return '<div class="acoes">'+a.join('')+'</div>'}

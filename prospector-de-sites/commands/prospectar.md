@@ -1,5 +1,5 @@
 ---
-description: Busca no Google Maps negócios bem avaliados com sites ruins e gera a lista de leads
+description: Busca no Google Maps negócios bem avaliados (com ou sem site) e gera a lista de leads
 argument-hint: "[nicho] [cidade] — opcional, usa os padrões do config"
 ---
 
@@ -17,13 +17,13 @@ Use as ferramentas do Claude in Chrome (carregue via ToolSearch se necessário) 
 
 - Buscar "[nicho] em [cidade]"
 - Avaliar até 25 estabelecimentos ou até atingir o número de leads qualificados do config (padrão 10), o que vier primeiro
-- Critério ouro: nota alta (≥ 4.7) + muitas avaliações (≥ 40) + site ATIVO porém ruim + e-mail público. Os três eliminatórios: sem site (ou site fora do ar/diretório de terceiros) → pula; site bom → pula; sem e-mail → pula. Sempre registrar descartados com o motivo e seguir buscando até bater a meta
+- Critério ouro: nota alta (≥ 4.0) + avaliações (≥ 20) + oportunidade de site (SEM site → criar o primeiro; COM site fraco → redesign) + pelo menos um canal de contato (e-mail, WhatsApp ou Instagram). Eliminatórios: site já moderno e bom → pula (baixa oportunidade); sem NENHUM contato (sem e-mail, sem WhatsApp e sem Instagram) → pula. Sempre registrar descartados com o motivo e seguir buscando até bater a meta
 - Para cada candidato, abrir o site em nova aba e avaliar a qualidade seguindo os critérios da skill
-- Coletar: nome, nota, nº de avaliações, telefone, **WhatsApp em formato 55DDDnúmero** (link wa.me no site ou celular do perfil do Maps — ver skill), e-mail, URL do site e o motivo objetivo pelo qual o site é ruim
+- Coletar: nome, nota, nº de avaliações, telefone, **WhatsApp em formato 55DDDnúmero** (link wa.me no site ou celular do perfil do Maps — ver skill), e-mail, **Instagram (sempre, mesmo com site)**, **URL + CID do Google Meu Negócio**, URL do site (se houver) e o motivo objetivo (site fraco OU "não tem site próprio")
 
 ## Saída — Google Sheets + dashboard + cópia local
 
-1. **Google Sheets**: salve os leads numa PLANILHA DO GOOGLE via conector do Google Drive — `create_file` com `contentMimeType: text/csv` e o CSV como `textContent` (a conversão automática cria uma planilha nativa do Sheets). Título: `Leads Prospector — [nicho] [cidade]`. Colunas: #, Nome, Nota, Avaliações, E-mail, Telefone, Site atual, Motivo, Situação (Qualificado/Descartado + motivo), Status, URL nova. Inclua TODOS os avaliados (qualificados E descartados), ranqueados por potencial (melhor nota + pior site primeiro). Retorne o link da planilha ao usuário.
+1. **Google Sheets**: salve os leads numa PLANILHA DO GOOGLE via conector do Google Drive — `create_file` com `contentMimeType: text/csv` e o CSV como `textContent` (a conversão automática cria uma planilha nativa do Sheets). Título: `Leads Prospector — [nicho] [cidade]`. Colunas: #, Nome, Nota, Avaliações, E-mail, Telefone, Site atual, Motivo, Situação (Qualificado/Descartado + motivo), Status, URL nova. Inclua TODOS os avaliados (qualificados E descartados), ranqueados por potencial (melhor nota + maior oportunidade: sem site, depois pior site). Retorne o link da planilha ao usuário.
 2. **Cópia local**: mantenha `leads.md` na pasta conectada como cópia de trabalho (o conector do Drive não edita células — os status `novo → redesenhado → publicado → proposta enviada` são atualizados no leads.md local, e a planilha do Google é regenerada com os dados acumulados ao fim de cada comando que muda status). Em rodadas novas, some os leads novos aos antigos numa planilha só, nunca duplique cliente já avaliado.
 3. **Dashboard**: crie/atualize `dashboard.html` na raiz da pasta conectada seguindo a skill `dashboard-leads` (template + merge do JSON embutido) — leads novos entram com `status: novo`, descartados com `status: descartado`. ⚠️ **Ao gravar cada lead, gere o `slug` pela REGRA ÚNICA da skill `dashboard-leads`** (slugify do nome do negócio, sem prefixo de nicho). Esse slug é a identidade imutável do lead — `/redesenhar`, `/publicar` e `/proposta` vão reusá-lo tal e qual para pasta, arquivos e URL.
 
