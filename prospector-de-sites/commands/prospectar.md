@@ -9,7 +9,7 @@ Prospecte leads qualificados seguindo a skill `prospeccao-maps`.
 
 1. Leia `prospector-config.json` na pasta conectada. Se não existir, oriente a rodar `/setup` primeiro.
 2. Determine nicho e cidade: use os argumentos `$ARGUMENTS` se informados; senão, pergunte ao usuário qual dos nichos padrão do config usar (e confirme a cidade). O usuário SEMPRE pode trocar nicho e cidade na hora — nunca trave nos padrões.
-3. Leia `leads.md` na pasta conectada (se existir) para saber quais profissionais já foram avaliados — estes devem ser EXCLUÍDOS da nova busca.
+3. **Dedup (OBRIGATÓRIO):** carregue o cadastro da fonte da verdade — `prospector.db` (e `leads.md`, se existir). Todo negócio já cadastrado (inclusive `descartado`) é EXCLUÍDO da nova busca. Valide cada candidato com `skills/prospeccao-maps/references/checar-cadastro.py` (casa por gmnCid, telefone/WhatsApp ou slug do nome) — só segue quem voltar `NOVO`. Nunca reprospecte cliente/lead existente.
 
 ## Execução
 

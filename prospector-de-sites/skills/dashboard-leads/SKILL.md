@@ -27,13 +27,13 @@ CREATE TABLE IF NOT EXISTS leads(
   status TEXT DEFAULT 'novo', urlNova TEXT, dataProposta TEXT, valor REAL, obs TEXT,
   contratoStatus TEXT DEFAULT 'pendente', contratoEm TEXT, manutencao REAL, pago INTEGER DEFAULT 0,
   docCliente TEXT, endCliente TEXT,
-  instagram TEXT, gmnUrl TEXT, gmnCid TEXT, razaoSocial TEXT, responsavel TEXT, diaVencimento INTEGER, valorTrimestral REAL,
+  instagram TEXT, gmnUrl TEXT, gmnCid TEXT, dominio TEXT, razaoSocial TEXT, responsavel TEXT, diaVencimento INTEGER, valorTrimestral REAL, logo TEXT,
   atualizado TEXT DEFAULT (datetime('now','localtime')));
 ```
 
 Status: `novo | redesenhado | publicado | proposta | respondeu | fechado | descartado`. `slug` é a chave.
 
-**Campos extras (v0.16):** `instagram`, `gmnUrl` e `gmnCid` são preenchidos automaticamente na prospecção e passam por REVISÃO MANUAL no dashboard (nem sempre o Google devolve tudo). `gmnUrl` é o link que abre o perfil COMPLETO do negócio em 1 clique — padrão preferido `https://www.google.com/maps?cid=<CID>` (limpo e estável), com fallback para a URL longa `/maps/place/...`. `gmnCid` guarda só o CID (número), que é a CHAVE ESTÁVEL do negócio: serve para deduplicar (não prospectar o mesmo lugar 2x) e reconstruir o link se ele quebrar. `razaoSocial`, `responsavel` (nome completo do sócio/responsável), `diaVencimento` (dia do mês, 1–31) e `valorTrimestral` (valor cobrado a cada trimestre por Suporte e Hospedagem) são preenchidos À MÃO pelo usuário, e SÓ para clientes que vão fechar contrato — todos podem ficar vazios.
+**Campos extras (v0.16):** `instagram`, `gmnUrl` e `gmnCid` são preenchidos automaticamente na prospecção e passam por REVISÃO MANUAL no dashboard (nem sempre o Google devolve tudo). `gmnUrl` é o link que abre o perfil COMPLETO do negócio em 1 clique — padrão preferido `https://www.google.com/maps?cid=<CID>` (limpo e estável), com fallback para a URL longa `/maps/place/...`. `gmnCid` guarda só o CID (número), que é a CHAVE ESTÁVEL do negócio: serve para deduplicar (não prospectar o mesmo lugar 2x) e reconstruir o link se ele quebrar. `dominio` guarda o domínio do lead: quem TEM site → a parte do domínio do site atual (ex.: `flavianamagalhaes.adv`); quem NÃO tem site → um domínio `.com.br` sugerido a partir do nome (ex.: `autopowertech.com.br`). `logo` guarda a logomarca do lead (foto de perfil do Instagram) como imagem base64 (data-URI) — pequena (~4KB), capturada na prospecção. `razaoSocial`, `responsavel` (nome completo do sócio/responsável), `diaVencimento` (dia do mês, 1–31) e `valorTrimestral` (valor cobrado a cada trimestre por Suporte e Hospedagem) são preenchidos À MÃO pelo usuário, e SÓ para clientes que vão fechar contrato — todos podem ficar vazios.
 
 ## Convenção de slug (REGRA ÚNICA — fonte da verdade)
 

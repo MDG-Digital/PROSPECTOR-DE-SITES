@@ -18,7 +18,7 @@ PORTA = 8765
 CAMPOS = ['slug','nome','nicho','cidade','nota','avaliacoes','email','telefone','whatsapp',
           'siteAntigo','motivo','status','urlNova','dataProposta','valor','obs',
           'contratoStatus','contratoEm','manutencao','pago','docCliente','endCliente',
-          'instagram','gmnUrl','gmnCid','razaoSocial','responsavel','diaVencimento','valorTrimestral']
+          'instagram','gmnUrl','gmnCid','dominio','razaoSocial','responsavel','diaVencimento','valorTrimestral','logo']
 
 def conexao():
     c = sqlite3.connect(DB)
@@ -28,7 +28,7 @@ def conexao():
         status TEXT DEFAULT 'novo', urlNova TEXT, dataProposta TEXT, valor REAL, obs TEXT,
         contratoStatus TEXT DEFAULT 'pendente', contratoEm TEXT, manutencao REAL, pago INTEGER DEFAULT 0,
         atualizado TEXT DEFAULT (datetime('now','localtime')))''')
-    for col, tipo in [('contratoStatus',"TEXT DEFAULT 'pendente'"),('contratoEm','TEXT'),('manutencao','REAL'),('pago','INTEGER DEFAULT 0'),('docCliente','TEXT'),('endCliente','TEXT'),('instagram','TEXT'),('gmnUrl','TEXT'),('gmnCid','TEXT'),('razaoSocial','TEXT'),('responsavel','TEXT'),('diaVencimento','INTEGER'),('valorTrimestral','REAL')]:
+    for col, tipo in [('contratoStatus',"TEXT DEFAULT 'pendente'"),('contratoEm','TEXT'),('manutencao','REAL'),('pago','INTEGER DEFAULT 0'),('docCliente','TEXT'),('endCliente','TEXT'),('instagram','TEXT'),('gmnUrl','TEXT'),('gmnCid','TEXT'),('dominio','TEXT'),('razaoSocial','TEXT'),('responsavel','TEXT'),('diaVencimento','INTEGER'),('valorTrimestral','REAL'),('logo','TEXT')]:
         try: c.execute('ALTER TABLE leads ADD COLUMN %s %s' % (col, tipo))
         except sqlite3.OperationalError: pass
     return c

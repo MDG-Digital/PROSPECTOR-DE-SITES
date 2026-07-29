@@ -9,6 +9,14 @@ Encontrar o cliente ouro: negócio que JÁ fatura bem (nota alta, muitas avalia�
 
 > ⚠️ **SLUG (identidade do lead — nasce aqui):** ao registrar cada lead no banco/dashboard, gere o `slug` pela **REGRA ÚNICA** da skill `dashboard-leads` (slugify do NOME do negócio: minúsculas, sem acento, sem prefixo de nicho — nada de `of-`/`cl-`). Esse slug é **imutável** e vira o nome da pasta (`sites/<slug>/`), dos arquivos e da URL pública — todos os comandos seguintes o **reutilizam** exatamente. Nunca deixe o slug ser re-derivado depois.
 
+## Localização das buscas (país/estado/cidade — configurável)
+
+A localização vem de `prospector-config.json` → bloco `localizacao`: **`pais`, `estado`, `cidade`** (e `regiao` opcional). Esses 3 parâmetros valem para TODAS as buscas e ficam FIXOS até o usuário pedir para mudar. Monte as buscas do Maps com "[nicho] em [cidade]/[regiao], [estado], [pais]".
+
+**Busca localizada — evitar o viés dos EUA (IMPORTANTE):** a ferramenta `WebSearch` é geolocalizada nos EUA e enterra negócios locais (Instagram, empresas pequenas). Para achar Instagram/negócio local, NÃO use a `WebSearch` — faça a busca pelo **navegador (Claude in Chrome)** no Google do país configurado:
+`https://www.google.com/search?q=<consulta>&gl=<google_gl>&hl=<google_hl>&cr=country<google_gl>`
+(ex.: Brasil → `gl=BR&hl=pt-BR&cr=countryBR`; Canadá → `gl=CA&hl=en-CA`). Como a requisição sai da conexão do usuário (IP local), o Google responde como o país certo. Leia a SERP por screenshot ou `read_page` (o `get_page_text` não extrai bem a SERP). Alternativa mais direta para Instagram: buscar o nome do negócio dentro do próprio Instagram pelo navegador e conferir a bio/localização.
+
 ## Fluxo (via Claude in Chrome)
 
 1. Abrir `https://www.google.com/maps` e buscar `[nicho] em [cidade]`.
@@ -18,7 +26,23 @@ Encontrar o cliente ouro: negócio que JÁ fatura bem (nota alta, muitas avalia�
    - **Filtro 2 — canal de contato**: o lead precisa ter PELO MENOS UM canal para abordagem — e-mail, WhatsApp ou Instagram. Sem nenhum contato público → descartar (registrar o motivo) e seguir.
    - **Filtro 3 — oportunidade de site (COM OU SEM site)**: **Sem site** (ou fora do ar, ou "site" que é só diretório de terceiros/linktree) → **qualifica**; a oportunidade é criar o primeiro site próprio (conteúdo/fotos vêm do Instagram e do Google — ver `redesign-premium`), motivo = "não tem site próprio". **Com site**: abrir em nova aba e avaliar pelos critérios abaixo — site fraco (2+ problemas) → **qualifica** (motivo = os problemas); site já moderno e bom → descartar (baixa oportunidade), registrar o motivo.
 3. Parar ao atingir a meta de leads qualificados (config, padrão 10) ou após avaliar 25 estabelecimentos.
-4. Pular estabelecimentos que já estão em `leads.md` (avaliados em buscas anteriores).
+4. **Deduplicar (OBRIGATÓRIO — ver seção abaixo):** antes de avaliar/qualificar cada estabelecimento, cheque-o contra o cadastro (`prospector.db`, a fonte da verdade). Se já existir (inclusive `descartado`), PULE — nunca reprospecte cliente/lead antigo.
+
+## Deduplicação (OBRIGATÓRIA — nunca reprospectar quem já está no cadastro)
+
+O `prospector.db` é a FONTE DA VERDADE: guarda todos os leads já trabalhados (inclusive os `descartado`). NUNCA reprospecte um negócio que já está lá — nem para "atualizar".
+
+Antes de qualificar cada candidato, valide com `references/checar-cadastro.py` (Python puro, sem dependências):
+
+```bash
+python3 checar-cadastro.py --db prospector.db "Nome do Negócio" --tel "(31) 3264-1753" --wa 5531986921283 --cid <CID>
+# JA_CADASTRADO | <slug> | status=... | por=...   -> PULAR
+# NOVO                                            -> seguir
+```
+
+Casa por 3 chaves, da mais forte para a mais fraca: **gmnCid** (chave estável do GMN), **telefone/WhatsApp** (só dígitos, ignora DDI/DDD) e **slug do nome**. Basta UMA bater para ser duplicata. Em lote: `--lote arquivo.txt` (linhas `Nome;telefone;whatsapp;cid`).
+
+Fluxo: colete nome + telefone/WhatsApp + gmnCid do candidato, rode a checagem e só entre no site/qualificação se voltar `NOVO`. Os pulados vão ao relatório como "já no cadastro" (não entram na planilha como novos). Grave SEMPRE o `gmnCid` dos leads novos — é ele que torna a dedup à prova de erro nas próximas rodadas.
 
 ## Critérios de site ruim (guardar o motivo específico)
 
@@ -43,6 +67,10 @@ Nome, nota, nº de avaliações, telefone, WhatsApp, e-mail, URL do site, motivo
 
 **INSTAGRAM — SEMPRE, para TODO lead (com ou sem site) (captura + revisão manual).** Capture o @ ou a URL do perfil MESMO quando o lead já tem site — o Instagram é fonte rica de fotos, serviços, horários e novidades que alimentam a criação/redesign da página. Procure nesta ordem: site do lead (ícone/link do Instagram no cabeçalho ou rodapé — pegue o `instagram.com/...`), perfil do Google Maps, e busca `[nome] [cidade] instagram`. Ao abrir o perfil, anote sinais úteis (nº de seguidores, se está ativo, principais serviços/fotos). Grave o @ ou a URL em `instagram`. Se não achar com segurança, deixe em branco — o usuário revisa depois no dashboard.
 
+**Instagram como "site" no Maps (resolver na hora):** se o campo "site" do lead no Maps for um `instagram.com/...`, CLIQUE nele — o perfil abre e o @ aparece na URL/no topo. Resolva o @ na hora; NÃO mande pra revisão manual.
+
+**LOGO (campo `logo`):** com o perfil do Instagram aberto, capture a foto de perfil (o avatar circular ao lado do nome/bio — normalmente é a logomarca). Recorte a região do avatar, reduza para ~160px, salve como JPEG e grave no campo `logo` como data-URI base64 (~4KB, cabe no banco). Se o perfil exigir login ou o avatar não for recortável, deixe `logo` vazio (o editor de site permite subir a logo depois).
+
 **GOOGLE MEU NEGÓCIO — link + CID (captura + revisão manual).** O objetivo é um link que abre o perfil COMPLETO do negócio em 1 clique, mais uma chave estável pra não prospectar o mesmo lugar 2x. Faça assim, com o perfil do negócio ABERTO no Google Maps:
 
 1. **Leia a URL da barra de endereço** — ela tem o formato `.../maps/place/Nome/@lat,lng,zoom/data=!...!1s0x<HEX_A>:0x<HEX_B>!...`.
@@ -52,6 +80,15 @@ Nome, nota, nº de avaliações, telefone, WhatsApp, e-mail, URL do site, motivo
 5. Se nada abrir com segurança o perfil, deixe os dois campos vazios para revisão manual depois.
 
 > Observação técnica: o `0x<HEX_A>` antes dos dois-pontos é o Feature ID (auxiliar); o Place ID oficial (`ChIJ...`) NÃO aparece na URL — só via API Places, por isso não é usado aqui.
+
+## Domínio sugerido (campo `dominio`)
+
+Preencha o campo `dominio` de cada lead:
+
+- **Com site próprio:** guarde só a parte do domínio do site atual — sem `http(s)://`, sem `www.`, sem caminho. Ex.: `https://flavianamagalhaes.adv/sobre` → `flavianamagalhaes.adv`.
+- **Sem site próprio:** CRIE um domínio sugerido a partir do NOME da empresa, seguindo as regras de domínio (minúsculas, sem acento/ç, só `a-z 0-9`, sem espaços), compactando/concatenando as palavras do nome, com final `.com.br`. Ex.: `Auto Power Tech` → `autopowertech.com.br`; `RCA Centro Automotivo` → `rcacentroautomotivo.com.br`.
+
+O campo guarda o domínio COMPLETO (com `.com.br` ou o TLD do site). A mensagem de WhatsApp usa esse valor direto em `www.<dominio>` e `atendimento@<dominio>` — não acrescente `.com.br`, já está no campo.
 
 ## Saída — Google Sheets + leads.md local
 

@@ -18,7 +18,7 @@ Colete:
 
 - **Assinatura da proposta**: nome completo, como quer se apresentar (ex.: "Designer de páginas de alta conversão") e WhatsApp/telefone de contato.
 - **Nichos padrão de prospecção**: sugira nutricionistas, psicólogos, advogados e psiquiatras como ponto de partida, mas deixe o usuário editar livremente.
-- **Cidade/região padrão**.
+- **Localização padrão da prospecção — 3 parâmetros: `pais`, `estado`, `cidade`** (e `regiao`, opcional). Ficam salvos e valem para TODAS as buscas até o usuário pedir para mudar. Eles também definem em que país o Google/Instagram é consultado — guarde os códigos `google_gl` (país) e `google_hl` (idioma). Ex.: Brasil → `gl=BR`, `hl=pt-BR`; Canadá → `gl=CA`, `hl=en-CA`.
 - **Leads qualificados por busca**: padrão 10.
 - **Modo de envio da proposta**: padrão "criar rascunho no Gmail para revisão" (recomendado). Alternativa: enviar direto.
 
@@ -41,7 +41,8 @@ Salve tudo em `prospector-config.json` na pasta conectada, neste formato:
 ```json
 {
   "assinatura": { "nome": "", "apresentacao": "", "whatsapp": "" },
-  "prospeccao": { "nichos": ["nutricionistas", "psicologos", "advogados", "psiquiatras"], "cidade": "", "leadsPorBusca": 10 },
+  "localizacao": { "pais": "Brasil", "estado": "MG", "cidade": "Belo Horizonte", "regiao": "Venda Nova", "google_gl": "BR", "google_hl": "pt-BR" },
+  "prospeccao": { "nichos": ["nutricionistas", "psicologos", "advogados", "psiquiatras"], "leadsPorBusca": 10 },
   "envio": { "modo": "rascunho" },
   "hostgator": { "usuario": "", "dominio": "", "servidor": "", "senha": "", "pastaBase": "clientes" }
 }

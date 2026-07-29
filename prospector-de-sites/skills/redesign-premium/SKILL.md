@@ -18,6 +18,15 @@ Criar uma NOVA VERSÃO da página do cliente — não uma página nova. O client
 7. **Editor sempre.** Todo redesign gera junto o `sites/[slug]/[slug]-editor.html` (camada de edição de `references/editor-visual.md`) — nunca entregar página sem a versão editável.
 8. **Comparador sempre.** Todo lote de redesign termina com `comparar.html` na raiz da pasta conectada, gerado a partir de `references/comparador-template.html` (substituir `__CLIENTES__` pelo array JSON; mesclar com clientes já existentes). A entrega padrão de cada cliente são 3 arquivos: página + editor + aba no comparador.
 
+## Logo, paleta e carrossel de imagens reais (quando houver Instagram/GMN)
+
+Quando o lead tiver Instagram (campo `instagram`/`logo`) e/ou fotos no Google:
+
+1. **Logo no topo:** aplique a logomarca do cliente (campo `logo` do banco = foto de perfil do Instagram, base64) numa barra fixa no topo (header) e no rodapé. Sem logo utilizável, use composição tipográfica — nunca invente logo.
+2. **Paleta da marca:** derive a paleta das cores da própria logo/identidade (cor de destaque = cor predominante da logo; ex.: logo preto+vermelho → destaque vermelho, base preta/branca). Refine tons fracos, nunca troque a família de cores.
+3. **Carrossel no topo (lado direito do hero):** monte um slider com as **3 imagens fixadas do Instagram** + **1 imagem do Street View/360° do Google Meu Negócio** (quando disponível). Capture cada imagem por recorte de tela (zoom na região) do perfil/post, reduza (~700px, JPEG) e embuta em base64 na página (autocontida). Se alguma fonte faltar (perfil pede login, GMN sem galeria), use as que houver — não deixe slot vazio nem invente imagem.
+4. **Nada inventado:** textos/serviços continuam vindo do material real (bio e posts do Instagram, avaliações e dados do Google). Ex.: a lista de serviços pode sair do próprio post 'Nossos serviços' do Instagram do cliente.
+
 ## Estrutura da página (adaptar à profissão)
 
 1. **Hero**: nome + especialidade, promessa clara em 1 linha, CTA primário (WhatsApp) visível sem rolar, foto do profissional/clínica.

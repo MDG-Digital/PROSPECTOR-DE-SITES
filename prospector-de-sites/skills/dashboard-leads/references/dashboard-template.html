@@ -129,11 +129,16 @@ select.mini{border:1px solid var(--line);border-radius:8px;padding:5px 8px;font-
 .modo.file{background:var(--warn-soft);color:var(--warn)}
 #modal-bg{position:fixed;inset:0;background:#00000055;display:none;align-items:center;justify-content:center;z-index:50}
 #modal-bg.aberto{display:flex}
-#modal{background:var(--white);border-radius:16px;padding:22px;width:460px;max-width:92vw;max-height:88vh;overflow-y:auto}
+#modal{background:var(--white);border-radius:16px;padding:22px;width:940px;max-width:95vw;max-height:90vh;overflow-y:auto}
 #modal h2{font-family:var(--serif);font-size:18px;margin:0 0 14px}
 #modal label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin:10px 0 4px}
 #modal input,#modal select,#modal textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:8px 10px;font-size:13px;font-family:var(--sans);color:var(--ink);background:var(--surface)}
 #modal .mrow{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+#modal .mgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 12px}
+#modal .mgrid .fld{min-width:0}
+#modal .mgrid label{margin:8px 0 3px}
+#modal .mgrid .span2{grid-column:span 2}#modal .mgrid .span3{grid-column:span 3}
+@media(max-width:640px){#modal .mgrid{grid-template-columns:1fr}#modal .mgrid .span2,#modal .mgrid .span3{grid-column:auto}}
 #modal .mbot{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
 #modal .mbot button{border:0;border-radius:9px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--sans)}
 #modal .salvar{background:var(--accent);color:#fff}
@@ -163,20 +168,40 @@ select.mini{border:1px solid var(--line);border-radius:8px;padding:5px 8px;font-
 <div id="doc-bg"><div class="doc-bar"><b id="doc-titulo">Contrato</b><span class="sp"></span><button class="imp" onclick="printDoc()">🖨 Imprimir / Salvar PDF</button><button class="fech" onclick="fecharDoc()">Fechar ✕</button></div><iframe id="doc-frame"></iframe></div>
 <div id="modal-bg" onclick="if(event.target===this)fecharEdit()"><div id="modal">
 <h2 id="m-titulo">Editar lead</h2>
-<label>Nome</label><input id="m-nome">
-<div class="mrow"><div><label>E-mail</label><input id="m-email"></div><div><label>Telefone</label><input id="m-telefone"></div></div>
-<div class="mrow"><div><label>WhatsApp (55DDDnúmero)</label><input id="m-whatsapp"></div><div><label>Cidade</label><input id="m-cidade"></div></div>
-<div class="mrow"><div><label>Nicho</label><input id="m-nicho"></div><div><label>Status</label><select id="m-status"></select></div></div>
-<div class="mrow"><div><label>Valor (R$)</label><input id="m-valor" type="number" step="50"></div><div><label>Data da proposta</label><input id="m-dataProposta" type="date"></div></div>
-<div class="mrow"><div><label>Manutenção mensal (R$)</label><input id="m-manutencao" type="number" step="10"></div><div><label>Pagamento recebido?</label><select id="m-pago"><option value="0">Não</option><option value="1">Sim</option></select></div></div>
-<div class="mrow"><div><label>Contrato</label><select id="m-contratoStatus"><option value="pendente">Pendente</option><option value="enviado">Enviado</option><option value="assinado">Assinado</option></select></div><div><label>Data do contrato</label><input id="m-contratoEm" type="date"></div></div>
-<div class="mrow"><div><label>CPF/CNPJ do cliente</label><input id="m-docCliente" placeholder="para o contrato"></div><div><label>Endereço do cliente</label><input id="m-endCliente" placeholder="rua, nº — para o contrato"></div></div>
-<div class="mrow"><div><label>Instagram (@ ou URL)</label><input id="m-instagram" placeholder="captado na prospecção — revisar"></div><div><label>Google Meu Negócio (URL)</label><input id="m-gmnUrl" placeholder="captado na prospecção — revisar"></div></div>
-<div class="mrow"><div><label>GMN — CID (chave estável)</label><input id="m-gmnCid" placeholder="só dígitos — captado na prospecção"></div><div><label></label></div></div>
-<div class="mrow"><div><label>Razão social</label><input id="m-razaoSocial" placeholder="só p/ quem vai fechar contrato"></div><div><label>Sócio/responsável (nome completo)</label><input id="m-responsavel" placeholder="só p/ quem vai fechar contrato"></div></div>
-<div class="mrow"><div><label>Dia venc. trimestral (1-31)</label><input id="m-diaVencimento" type="number" min="1" max="31" step="1" placeholder="Suporte e Hospedagem"></div><div><label>Valor trimestral (R$)</label><input id="m-valorTrimestral" type="number" step="10" placeholder="Suporte e Hospedagem"></div></div>
-<label>URL publicada</label><input id="m-urlNova">
-<label>Observações</label><textarea id="m-obs" rows="2"></textarea>
+<div class="mgrid">
+<div class="fld"><label>Slug (identidade — fixo)</label><input id="m-slug" disabled></div>
+<div class="fld span2"><label>Nome</label><input id="m-nome"></div>
+<div class="fld"><label>Nicho</label><input id="m-nicho"></div>
+<div class="fld"><label>Cidade</label><input id="m-cidade"></div>
+<div class="fld"><label>Status</label><select id="m-status"></select></div>
+<div class="fld"><label>Nota</label><input id="m-nota" type="number" step="0.1" min="0" max="5"></div>
+<div class="fld"><label>Avaliações</label><input id="m-avaliacoes" type="number" step="1" min="0"></div>
+<div class="fld"><label>E-mail</label><input id="m-email"></div>
+<div class="fld"><label>Telefone</label><input id="m-telefone"></div>
+<div class="fld"><label>WhatsApp (55DDDnúmero)</label><input id="m-whatsapp"></div>
+<div class="fld"><label>Instagram (@ ou URL)</label><input id="m-instagram"></div>
+<div class="fld"><label>Domínio</label><input id="m-dominio" placeholder="ex.: nome.com.br"></div>
+<div class="fld"><label>GMN — CID</label><input id="m-gmnCid" placeholder="só dígitos"></div>
+<div class="fld span2"><label>GMN — URL</label><input id="m-gmnUrl"></div>
+<div class="fld"><label>Site antigo</label><input id="m-siteAntigo"></div>
+<div class="fld span3"><label>Motivo</label><input id="m-motivo"></div>
+<div class="fld span3"><label>URL publicada</label><input id="m-urlNova"></div>
+<div class="fld"><label>Valor (R$)</label><input id="m-valor" type="number" step="50"></div>
+<div class="fld"><label>Data da proposta</label><input id="m-dataProposta" type="date"></div>
+<div class="fld"><label>Pagamento recebido?</label><select id="m-pago"><option value="0">Não</option><option value="1">Sim</option></select></div>
+<div class="fld"><label>Manutenção mensal (R$)</label><input id="m-manutencao" type="number" step="10"></div>
+<div class="fld"><label>Valor trimestral (R$)</label><input id="m-valorTrimestral" type="number" step="10"></div>
+<div class="fld"><label>Dia venc. trimestral</label><input id="m-diaVencimento" type="number" min="1" max="31" step="1"></div>
+<div class="fld"><label>Contrato</label><select id="m-contratoStatus"><option value="pendente">Pendente</option><option value="enviado">Enviado</option><option value="assinado">Assinado</option></select></div>
+<div class="fld"><label>Data do contrato</label><input id="m-contratoEm" type="date"></div>
+<div class="fld"><label>Razão social</label><input id="m-razaoSocial"></div>
+<div class="fld"><label>Sócio/responsável</label><input id="m-responsavel"></div>
+<div class="fld"><label>CPF/CNPJ do cliente</label><input id="m-docCliente"></div>
+<div class="fld span2"><label>Endereço do cliente</label><input id="m-endCliente"></div>
+<div class="fld"><label>Logo (Instagram)</label><img id="m-logo-prev" alt="" style="max-width:72px;max-height:72px;border-radius:8px;border:1px solid var(--line);display:none"></div>
+<div class="fld"><label>Atualizado (auto)</label><input id="m-atualizado" disabled></div>
+<div class="fld span3"><label>Observações</label><textarea id="m-obs" rows="2"></textarea></div>
+</div>
 <div class="mbot"><button class="cancelar" onclick="fecharEdit()">Cancelar</button><button class="salvar" onclick="salvarEdit()">Salvar</button></div>
 </div></div>
 <script id="dados" type="application/json">__DADOS__</script>
@@ -209,12 +234,14 @@ var editSlug=null;
 function abrirEdit(slug){editSlug=slug;var l=leads.filter(function(x){return x.slug===slug})[0]||{};
  document.getElementById('m-titulo').textContent='Editar — '+(l.nome||slug);
  document.getElementById('m-status').innerHTML=Object.keys(NOMES).map(function(st){return '<option value="'+st+'"'+(l.status===st?' selected':'')+'>'+NOMES[st]+'</option>'}).join('');
- ['nome','email','telefone','whatsapp','cidade','nicho','valor','dataProposta','urlNova','obs','manutencao','contratoEm','docCliente','endCliente','instagram','gmnUrl','gmnCid','razaoSocial','responsavel','diaVencimento','valorTrimestral'].forEach(function(k){document.getElementById('m-'+k).value=l[k]==null?'':l[k]});
- document.getElementById('m-pago').value=l.pago?1:0;document.getElementById('m-contratoStatus').value=l.contratoStatus||'pendente';
+ ['slug','nome','nicho','cidade','nota','avaliacoes','email','telefone','whatsapp','instagram','dominio','gmnCid','gmnUrl','siteAntigo','motivo','urlNova','valor','dataProposta','manutencao','valorTrimestral','diaVencimento','contratoEm','razaoSocial','responsavel','docCliente','endCliente','obs','atualizado'].forEach(function(k){var el=document.getElementById('m-'+k);if(el)el.value=l[k]==null?'':l[k]});
+ document.getElementById('m-pago').value=l.pago?1:0;document.getElementById('m-contratoStatus').value=l.contratoStatus||'pendente';var lg=document.getElementById('m-logo-prev');if(lg){lg.src=l.logo||'';lg.style.display=l.logo?'block':'none'}
  document.getElementById('modal-bg').classList.add('aberto')}
 function fecharEdit(){document.getElementById('modal-bg').classList.remove('aberto');editSlug=null}
 function salvarEdit(){if(!editSlug)return;var ch={};
- ['nome','email','telefone','whatsapp','cidade','nicho','urlNova','obs','dataProposta','docCliente','endCliente','instagram','gmnUrl','gmnCid','razaoSocial','responsavel'].forEach(function(k){ch[k]=document.getElementById('m-'+k).value||null});
+ ['nome','nicho','cidade','email','telefone','whatsapp','instagram','dominio','gmnCid','gmnUrl','siteAntigo','motivo','urlNova','dataProposta','contratoEm','razaoSocial','responsavel','docCliente','endCliente','obs'].forEach(function(k){ch[k]=document.getElementById('m-'+k).value||null});
+ var nt=document.getElementById('m-nota').value;ch.nota=nt===''?null:parseFloat(nt);
+ var av=document.getElementById('m-avaliacoes').value;ch.avaliacoes=av===''?null:parseInt(av,10);
  var dvc=document.getElementById('m-diaVencimento').value;ch.diaVencimento=dvc===''?null:parseInt(dvc);
  var vtr=document.getElementById('m-valorTrimestral').value;ch.valorTrimestral=vtr===''?null:parseFloat(vtr);
  ch.status=document.getElementById('m-status').value;

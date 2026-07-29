@@ -50,17 +50,24 @@ Revise o e-mail pronto contra CADA item; se falhar em qualquer um, reescreva ant
 
 ## Mensagem de WhatsApp (leads sem e-mail)
 
-Para leads sem e-mail, a abordagem é por WhatsApp (1 a 1). Mesma lógica do e-mail (rapport → oportunidade → prova), em tom de mensagem. Estrutura:
+Para leads sem e-mail, a abordagem é por WhatsApp (1 a 1). Mesma lógica do e-mail (rapport → oportunidade → prova), em tom de mensagem.
+
+**Número: WhatsApp ou, na falta dele, o telefone.** Monte o link `wa.me` com o campo `whatsapp` do lead. **Se o lead NÃO tiver `whatsapp` mas tiver `telefone`, use o telefone mesmo** — só dígitos, formato `55 + DDD + número` (ex.: `(31) 3665-3150` → `553136653150`). Muitos fixos comerciais também atendem no WhatsApp; o envio é a única forma de validar. Quando o número responder pelo WhatsApp, atualize o campo `whatsapp` no banco.
+
+Estrutura:
 
 1. Saudação + quem é ("Aqui é o Gilberto, da Kairós Tecnologia") + elogio ESPECÍFICO e verificável (nota/avaliações reais do Google).
 2. Oportunidade: 1-2 pontos objetivos do que dá pra melhorar (ou "ainda não tem site próprio"), como oportunidade — nunca como crítica.
 3. "Preparei uma nova versão, já no ar" + o link da página nova publicada (ou a capa `proposta.html`).
 4. **Parágrafo fixo (penúltimo — sempre este texto, exatamente):**
    > Estamos aqui no Bairro São João Batista, na Região Norte de BH, e na Kairós usamos modernas soluções de IA (Inteligência Artificial) para criar sites com qualidade, atrativos e com custo bem acessível! Esse site de demonstração foi criado por IA com suas informações públicas no Google, no Instagram e no site atual.
-5. **Fechamento (última frase — sempre):**
+5. **Domínio e e-mail (penúltimo — só quando o lead tiver o campo `dominio`):**
+   > Podemos também revisar o seu cadastro no Google Meu Negócio, criar o seu domínio na internet, como por exemplo: www.<dominio>, e até seu e-mail personalizado: atendimento@<dominio>.
+   Substitua `<dominio>` pelo conteúdo do campo `dominio` do lead (já vem com `.com.br`/TLD — NÃO acrescente `.com.br`). Ex.: campo `autopowertech.com.br` → "www.autopowertech.com.br" e "atendimento@autopowertech.com.br". Sem `dominio` preenchido, omita este parágrafo.
+6. **Fechamento (última frase — sempre):**
    > Dá uma olhada com calma e me diz o que achou. Abraço!
 
-O parágrafo fixo (item 4) e o fechamento (item 5) entram SEMPRE, nesta ordem, ao final de toda mensagem de WhatsApp.
+O parágrafo fixo (item 4), o domínio/e-mail (item 5, quando houver `dominio`) e o fechamento (item 6) entram SEMPRE, nesta ordem, ao final de toda mensagem de WhatsApp.
 
 ## Página-capa (o que o cliente vê ao clicar)
 
