@@ -7,27 +7,27 @@ description: Esta skill deve ser usada ao publicar páginas na hospedagem HostGa
 
 Publicar páginas em `public_html/[pastaBase]/[slug]/` e garantir a URL pública `https://[dominio]/[pastaBase]/[slug]/` funcionando.
 
-> ⚠️ **SLUG:** o `[slug]` da pasta remota e da URL DEVE ser o mesmo `slug` gravado no `prospector.db` para o lead (e o mesmo da pasta local `sites/<slug>/`). Nunca re-derive do nome na hora de publicar — leia o slug do banco e use-o igual. Assim a URL pública, a pasta local e o banco ficam idênticos. Regra única de slug: skill `dashboard-leads`.
+> ⚠️ **SLUG:** o `[slug]` da pasta remota e da URL DEVE ser o mesmo `slug` gravado no `prospector.db` para o lead (e o mesmo da pasta local `sites/bh/oficinas/<slug>/`). Nunca re-derive do nome na hora de publicar — leia o slug do banco e use-o igual. Assim a URL pública, a pasta local e o banco ficam idênticos. Regra única de slug: skill `dashboard-leads`.
 
 ## Credenciais
 
 Tudo vem de `prospector-config.json` (bloco `hostgator`): `usuario`, `dominio`, `servidor`, `senha`, `pastaBase` (padrão `clientes`). **A senha vive SÓ nesse arquivo, no computador do usuário — nunca é digitada no chat, nunca é exibida em nenhuma saída, log ou comando mostrado ao usuário.** Se a senha estiver vazia, oriente o usuário: dashboard → aba Configurações → Conexão HostGator → colar a senha e salvar (ou editar o arquivo na mão). Nunca pelo chat.
 
-## Método 1 — Publicador automático local (RECOMENDADO: instala uma vez, nunca mais clica)
+## Método 1 — Publicador MANUAL (monte a fila; o usuário roda o publicar-agora.bat) — PADRÃO
 
-A rede do sandbox do Cowork NÃO alcança FTP nem cPanel — isso vale para todo usuário. A publicação roda na máquina do usuário via um publicador instalado no agendador do Windows: a cada minuto ele verifica a fila e sobe o que houver, escondido, lendo as credenciais do config. O usuário instala UMA vez e o /publicar vira 100% automático.
+A rede do sandbox do Cowork NÃO alcança FTP nem cPanel — isso vale para todo usuário. A publicação roda na máquina do usuário de forma MANUAL: o Claude monta a fila (`fila-publicacao.txt`) e o USUÁRIO roda o `publicar-agora.bat` (Windows) / `publicar-agora.command` (Mac), que sobe tudo de uma vez lendo as credenciais do config. **Regra fixa: NUNCA suba automático nem conte com publicador em segundo plano — depois de montar a fila, SEMPRE aguarde o usuário rodar o publicador e confirmar que subiu; só então verifique as URLs.**
 
 1. **Garanta os arquivos do publicador na pasta conectada** (copie de `references/` desta skill, sobrescrevendo versões antigas), conforme o sistema do usuário — pergunte ou detecte:
    - **Windows**: `publicar-agora.ps1`, `publicar-agora.bat`, `publicador-oculto.vbs`, `instalar-publicador.bat`.
    - **Mac**: `publicar-agora.command` e `instalar-publicador.command` (o instalador registra o publicador no launchd, a cada 60s; desinstalar = `launchctl unload` do plist com.prospector.publicador).
    Em dúvida, copie todos — cada sistema ignora os do outro.
-2. **Primeira vez**: peça UM duplo clique no `instalar-publicador.bat` (Windows — cria a tarefa "ProspectorPublicador"; erro de permissão = botão direito → Executar como administrador) ou no `instalar-publicador.command` (Mac — se o macOS bloquear por segurança: botão direito → Abrir na primeira vez). Só uma vez na vida.
-3. **Monte a fila**: escreva `fila-publicacao.txt` na raiz da pasta conectada, uma linha por arquivo: `caminho/local/arquivo.html|public_html/[pastaBase]/[slug]/index.html`. Inclua página (`index.html`) e capa (`proposta.html`) de cada cliente. Em até 1 minuto o publicador sobe tudo sozinho e renomeia a fila para `fila-publicada-[data].txt` (o log fica em `publicador-log.txt`).
-4. **Aguarde ~90s e verifique**: confira se a fila foi renomeada e teste as URLs (verificação abaixo). Sem tarefa instalada, o fallback manual é o duplo clique no `publicar-agora.bat` (Windows) ou `publicar-agora.command` (Mac).
+2. **Não instale tarefa agendada automática.** O fluxo é manual: garanta apenas que `publicar-agora.bat` + `publicar-agora.ps1` (Windows) ou `publicar-agora.command` (Mac) estão na pasta. Se existir a tarefa antiga `ProspectorPublicador`, remova-a (`schtasks /Delete /TN ProspectorPublicador /F`) — o usuário publica sempre à mão.
+3. **Monte a fila**: escreva `fila-publicacao.txt` na raiz da pasta conectada, uma linha por arquivo: `caminho/local/arquivo.html|public_html/[pastaBase]/[slug]/index.html`. Inclua página (`index.html`) e capa (`proposta.html`) de cada cliente. Depois **PEÇA ao usuário para rodar o `publicar-agora.bat`** (duplo clique): ele sobe a fila e a renomeia para `fila-publicada-[data].txt` (log em `publicador-log.txt`).
+4. **AGUARDE o usuário confirmar** que rodou o `publicar-agora.bat` (não espere poller automático, não tente subir sozinho). Só após a confirmação, verifique se a fila virou `fila-publicada-[data].txt` e teste as URLs (verificação abaixo).
 
-## Método 2 — FTP direto do sandbox (tentar primeiro, silencioso)
+## Método 2 — FTP direto do sandbox (só sob pedido explícito — NÃO é o padrão)
 
-Antes de acionar o usuário, tente publicar você mesmo: `curl -sS --connect-timeout 15 -T [arquivo] "ftp://[servidor]/public_html/[pastaBase]/[slug]/index.html" --user "[usuario]:[senha do config]" --ftp-create-dirs` (senha lida do arquivo via script — jamais mostrada). Se funcionar, ótimo: zero ação do usuário. Se a rede do sandbox bloquear (timeout/refused), caia SEM DRAMA para o Método 1 — não insista em tentativas repetidas.
+Só se o usuário pedir explicitamente para você tentar subir direto (o padrão é a fila manual do Método 1): tente `curl -sS --connect-timeout 15 -T [arquivo] "ftp://[servidor]/public_html/[pastaBase]/[slug]/index.html" --user "[usuario]:[senha do config]" --ftp-create-dirs` (senha lida do arquivo via script — jamais mostrada). Se funcionar, ótimo: zero ação do usuário. Se a rede do sandbox bloquear (timeout/refused), caia SEM DRAMA para o Método 1 — não insista em tentativas repetidas.
 
 ## Método 3 — Navegador (último recurso)
 
@@ -41,4 +41,4 @@ Se os métodos 1 e 2 falharem (ex.: curl ausente na máquina do usuário): cPane
 
 ## Teste de conexão do /setup
 
-Publique `teste.html` simples ("Funcionou!") em `public_html/[pastaBase]/teste/index.html` pelo Método 2; se bloqueado, já deixe os scripts do Método 1 copiados na pasta, monte a fila com o teste e peça os 2 cliques — assim o usuário aprende o fluxo logo no setup.
+Publique `teste.html` simples ("Funcionou!") em `public_html/[pastaBase]/teste/index.html`: deixe os scripts do publicador (`publicar-agora.bat`/`.ps1` ou `.command`) na pasta, monte a fila com o teste e peça UM duplo clique no `publicar-agora.bat` — assim o usuário aprende o fluxo manual logo no setup.

@@ -17,6 +17,7 @@ O e-mail NÃO vende — ele desperta curiosidade e prova trabalho feito. O fecha
 4. **Zero preço.** Preço só na conversa que a resposta abre.
 5. **Zero pressão.** Sem urgência falsa, sem "últimas vagas". Um único CTA: dar uma olhada e responder o que achou.
 6. **Curto.** 120-180 palavras. Profissional ocupado não lê e-mail longo de desconhecido.
+7. **Grafia da marca (SEMPRE).** O nome da empresa é escrito exatamente como **"Kairós TecnologIA"** — acento no "ó" e "IA" final em MAIÚSCULO (é o trocadilho de Inteligência Artificial). Nunca "Kairós Tecnologia", "Kairos Tecnologia" nem "kairós tecnologia". Vale para e-mail, mensagens de WhatsApp, página-capa, assinatura e qualquer texto voltado ao cliente. Também registrado no `prospector-config.json` → `marca`.
 
 ## Estrutura
 

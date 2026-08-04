@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- TEMPLATE DO DASHBOARD (v3: 3 colunas + campos extras). A skill dashboard-leads gera o painel substituindo o marcador de dados dentro de <script id=dados> pelo snapshot JSON (atualizado + leads). -->
+<!-- TEMPLATE DO DASHBOARD (v2) — substituir __DADOS__ pelo JSON (ver SKILL.md). Salvar como dashboard.html na RAIZ da pasta conectada -->
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -294,7 +294,7 @@ function irPag(n){pag=n;render()}
 function mudaPorPag(v){porPag=v==='auto'?'auto':parseInt(v);pag=1;render()}
 function vSites(){var ls=fil().filter(function(l){return['redesenhado','publicado','proposta','respondeu','fechado'].indexOf(l.status)>=0});
  return ls.length?'<div class="sites-grid">'+ls.map(function(l){
-  var pg='sites/bh/oficinas/'+l.slug+'/'+l.slug+'.html'+'?v='+encodeURIComponent(l.atualizado||l.nota||'1');
+  var pg='sites/bh/oficinas/'+l.slug+'/'+l.slug+'.html';
   var prim=l.urlNova?'<a class="prim" href="'+l.urlNova+'" target="_blank">Ver no ar ↗</a>':'<a class="prim" href="'+pg+'" target="_blank">Ver página</a>';
   var ic=[];
   if(l.siteAntigo)ic.push('<a href="'+l.siteAntigo+'" target="_blank" title="site antigo do cliente">antigo</a>');
@@ -345,7 +345,7 @@ function vComparador(){var ls=fil().filter(function(l){return l.slug&&['redesenh
  if(!cmpSel||!ls.some(function(l){return l.slug===cmpSel}))cmpSel=ls[0].slug;
  var l=ls.filter(function(x){return x.slug===cmpSel})[0];
  var antiga=l.siteAntigo?((l.siteAntigo.indexOf('http')===0?l.siteAntigo:'https://'+l.siteAntigo)):null;
- var nova='sites/bh/oficinas/'+l.slug+'/'+l.slug+'.html'+'?v='+encodeURIComponent(l.atualizado||l.nota||'1');
+ var nova='sites/bh/oficinas/'+l.slug+'/'+l.slug+'.html';
  return '<div class="cmp-tabs">'+ls.map(function(x){return '<button class="'+(x.slug===cmpSel?'on':'')+'" onclick="cmpSel=\''+x.slug+'\';render()">'+x.nome+'</button>'}).join('')+'</div>'
  +'<div class="cmp-grid"><div class="cmp-col"><div class="cab antes">Antes — site atual'+(antiga?' · <a href="'+antiga+'" target="_blank" style="color:inherit">abrir ↗</a>':'')+'</div>'+(antiga?'<iframe src="'+antiga+'" loading="lazy"></iframe>':'<div class="vazio" style="padding:30px">Sem URL do site antigo registrada.</div>')+'</div>'
  +'<div class="cmp-col"><div class="cab depois">Depois — nova versão · <a href="'+nova+'" target="_blank" style="color:inherit">abrir ↗</a></div><iframe src="'+nova+'"></iframe></div></div>'

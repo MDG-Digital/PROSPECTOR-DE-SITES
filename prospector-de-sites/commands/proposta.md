@@ -18,6 +18,16 @@ Envie propostas para os leads com página publicada, seguindo a skill `proposta-
    - **enviar direto**: se o conector do Gmail não oferecer envio direto, use o Claude in Chrome no Gmail web para enviar, ou crie o rascunho e avise o usuário.
 6. Atualize `leads.md` e o banco do dashboard: status `proposta` + data de envio.
 
+## Mensagem por WhatsApp (`mensagens-whatsapp.md`) — regras fixas
+
+Para leads só-WhatsApp (sem e-mail), a mensagem é escrita no `mensagens-whatsapp.md`. Regras obrigatórias (também registradas no `prospector-config.json` → `mensagemWhatsapp`):
+
+- **Frase após a URL:** no 2º parágrafo, logo APÓS a URL do site novo, incluir SEMPRE a frase exata: `Esse site ainda pode ser alterado com outras imagens e textos.`
+- **Link sem codificar:** o campo `Link p/ abrir já preenchido` fica SEMPRE como `https://wa.me/<numero>?text=...` (apenas as reticências `...`). NÃO gerar mais a mensagem inteira codificada (URL-encoded) no link. Ex.: `https://wa.me/5531984572445?text=...`
+- **Append-only:** NUNCA alterar mensagens já criadas no `mensagens-whatsapp.md`. Apenas ACRESCENTAR os blocos das mensagens novas ao final, preservando tudo o que já existe.
+- **Grafia da marca:** escrever sempre `Kairós TecnologIA` (config → `marca`).
+- **Enviou → status `proposta`:** leads só-WhatsApp NÃO passam pelo fluxo de e-mail, então nada avança o status sozinho. Assim que o usuário confirmar o envio da mensagem pelo WhatsApp (ou pedir para registrar), atualize `status='proposta'` + `dataProposta` no `prospector.db` e regenere o dashboard. NUNCA deixe em `publicado` um lead cuja proposta já foi enviada por WhatsApp (config → `fluxoStatus`).
+
 ## Saída
 
 Resuma: quantas propostas criadas/enviadas e para quem, com o link da capa de cada uma. Lembre o usuário: `/respostas` verifica quem respondeu (dá pra agendar diário) e `/followup` cuida de quem está 3+ dias sem responder.

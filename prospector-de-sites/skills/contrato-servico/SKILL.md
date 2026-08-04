@@ -16,7 +16,7 @@ Gerar a minuta do contrato do serviço fechado (redesign + publicação de pági
 ## Geração
 
 - Template: `references/contrato-template.html` — arquivo único com CSS A4 de impressão. Substituir todos os `{{PLACEHOLDERS}}`; conferir que nenhum sobrou (busca por `{{`).
-- Salvar em `sites/[slug]/contrato-[slug].html`. PDF: abrir no navegador → Ctrl+P → Salvar como PDF (informe isso ao usuário).
+- Salvar em `sites/bh/oficinas/[slug]/contrato-[slug].html`. PDF: abrir no navegador → Ctrl+P → Salvar como PDF (informe isso ao usuário).
 - Cláusulas parametrizáveis: manutenção mensal (incluir só se contratada) e parcelamento (texto muda conforme forma de pagamento).
 
 ## DOCX travado (o arquivo que vai pro cliente)
